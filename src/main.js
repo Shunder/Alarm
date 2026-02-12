@@ -100,7 +100,7 @@ function tick(now = Date.now()) {
   if (activeTab === 'timer') {
     const runningTimer = state.timers.some((timer) => timer.running);
     if (!runningTimer) return;
-    const minInterval = state.showMilliseconds ? 100 : 250;
+    const minInterval = state.showMilliseconds ? 16 : 250;
     if (now - lastTimerRenderAt >= minInterval) {
       lastTimerRenderAt = now;
       render();
@@ -111,7 +111,7 @@ function tick(now = Date.now()) {
   if (activeTab === 'stopwatch') {
     const runningStopwatch = state.stopwatches.some((sw) => sw.running);
     if (!runningStopwatch) return;
-    const minInterval = state.showMilliseconds ? 100 : 250;
+    const minInterval = state.showMilliseconds ? 16 : 250;
     if (now - lastStopwatchRenderAt >= minInterval) {
       lastStopwatchRenderAt = now;
       render();
@@ -122,7 +122,7 @@ function tick(now = Date.now()) {
 function viewByTab() {
   if (activeTab === 'clock') return renderClock(state, t);
   if (activeTab === 'alarm') return renderAlarm(state, t);
-  if (activeTab === 'timer') return renderTimer(state, t);
+  if (activeTab === 'timer') return renderTimer(state, t, Date.now());
   if (activeTab === 'stopwatch') return renderStopwatch(state, t);
   return renderSettings(state, t);
 }
