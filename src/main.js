@@ -19,6 +19,7 @@ let lastTick = Date.now();
 let lastClockRenderAt = 0;
 let lastTimerRenderAt = 0;
 let lastStopwatchRenderAt = 0;
+let isPointerInteracting = false;
 
 applyTheme(state.mode, state.theme);
 
@@ -85,7 +86,7 @@ function tick(now = Date.now()) {
   });
 
   if (dirty) persist();
-  if (document.hidden || isEditing()) return;
+  if (document.hidden || isEditing() || isPointerInteracting) return;
 
   if (activeTab === 'clock') {
     const needsSubSecond = state.showSeconds;
@@ -324,6 +325,15 @@ function bindEvents() {
 
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden) tick(Date.now());
+});
+document.addEventListener('pointerdown', (event) => {
+  if (app.contains(event.target)) isPointerInteracting = true;
+});
+document.addEventListener('pointerup', () => {
+  isPointerInteracting = false;
+});
+document.addEventListener('pointercancel', () => {
+  isPointerInteracting = false;
 });
 setInterval(() => tick(Date.now()), 100);render();
 
