@@ -13,8 +13,15 @@ const messages = {
     soundBlockedNotice: 'ended but sound was blocked. Open app and tap Test Sound.', soundTestPlayed: 'Sound test played.',
     alarmList: 'Alarm list', timerList: 'Timer list', stopwatchList: 'Stopwatch list',
     addAlarm: 'Add alarm', addTimer: 'Add timer', addStopwatch: 'Add stopwatch', delete: 'Delete',
+<<<<<<< HEAD
     running: 'Running', paused: 'Paused', idle: 'Idle', done: 'Done',
     item: 'Item',
+=======
+    running: 'Running', paused: 'Paused', idle: 'Idle', done: 'Done', item: 'Item',
+    cannotDeleteLast: 'At least one item must remain.', displayPrecision: 'Display precision',
+    timerMilliseconds: 'Show milliseconds for timers', stopwatchMilliseconds: 'Show milliseconds for stopwatches',
+    theme_blue: 'Blue', theme_purple: 'Purple', theme_green: 'Green', theme_orange: 'Orange', theme_red: 'Red', theme_cyan: 'Cyan',
+>>>>>>> 9c4646c (fix: eliminate UI flicker and add ms precision/theme i18n improvements)
   },
   zh: {
     tabClock: '时钟', tabAlarm: '闹钟', tabTimer: '倒计时', tabStopwatch: '计时器', tabSettings: '设置',
@@ -30,8 +37,15 @@ const messages = {
     soundBlockedNotice: '已结束但声音被浏览器拦截，请打开应用并点击“测试声音”。', soundTestPlayed: '已播放测试声音。',
     alarmList: '闹钟列表', timerList: '倒计时列表', stopwatchList: '计时器列表',
     addAlarm: '新增闹钟', addTimer: '新增倒计时', addStopwatch: '新增计时器', delete: '删除',
+<<<<<<< HEAD
     running: '运行中', paused: '已暂停', idle: '未开始', done: '已完成',
     item: '项目',
+=======
+    running: '运行中', paused: '已暂停', idle: '未开始', done: '已完成', item: '项目',
+    cannotDeleteLast: '至少保留一个项目。', displayPrecision: '显示精度',
+    timerMilliseconds: '倒计时显示毫秒', stopwatchMilliseconds: '计时器显示毫秒',
+    theme_blue: '蓝色', theme_purple: '紫色', theme_green: '绿色', theme_orange: '橙色', theme_red: '红色', theme_cyan: '青色',
+>>>>>>> 9c4646c (fix: eliminate UI flicker and add ms precision/theme i18n improvements)
   },
 };
 
