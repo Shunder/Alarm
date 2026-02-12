@@ -14,12 +14,7 @@ export function renderAlarm(state, t) {
         <input data-alarm-minute="${alarm.id}" type="number" min="0" max="59" value="${alarm.minute}" />
         <label class="row"><input data-alarm-enabled="${alarm.id}" type="checkbox" ${alarm.enabled ? 'checked' : ''}/> ${t('enabled')}</label>
         <input data-alarm-snooze="${alarm.id}" type="number" min="1" max="30" value="${alarm.snoozeMinutes}" />
-<<<<<<< HEAD
-        <button class="btn" data-alarm-delete="${alarm.id}">${t('delete')}</button>
-=======
-        <button class="btn" data-alarm-delete="${alarm.id}" ${state.alarms.length <= 1 ? 'disabled' : ''}>${t('delete')}</button>
->>>>>>> 9c4646c (fix: eliminate UI flicker and add ms precision/theme i18n improvements)
-      </div>
+        <button class="btn" data-alarm-delete="${alarm.id}">${t('delete')}</button>      </div>
     </li>`;
   }).join('');
 
