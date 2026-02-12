@@ -56,7 +56,7 @@ input, select { background: transparent; border:1px solid var(--border); border-
   background: var(--surface); border:1px solid var(--border); padding: 10px 14px; border-radius: 12px; transition: .3s ease; }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 .modal { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: grid; place-items: center; padding: 18px; }
-.modal .card { max-width: 440px; width: 100%; }
+.modal .card { max-width: 440px; width: 100%; background: var(--bg); border-color: color-mix(in oklab, var(--text), transparent 85%); }
 .laps { max-height: 220px; overflow: auto; margin-top: 12px; }
 .laps li { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border); }
 .badge { padding: 4px 8px; border-radius: 20px; font-size: .8rem; background: color-mix(in oklab, var(--accent), transparent 80%); }
