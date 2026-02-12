@@ -3,12 +3,17 @@ export function pad(num) {
   return String(num).padStart(2, '0');
 }
 
-export function formatTime(ms, showHours = true) {
-  const total = Math.max(0, Math.floor(ms / 1000));
+export function formatTime(ms, showHours = true, showMilliseconds = false) {
+  const safeMs = Math.max(0, ms);
+  const total = Math.floor(safeMs / 1000);
   const h = Math.floor(total / 3600);
   const m = Math.floor((total % 3600) / 60);
   const s = total % 60;
-  return showHours ? `${pad(h)}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;}
+  const base = showHours ? `${pad(h)}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+  if (!showMilliseconds) return base;
+  const milliseconds = String(Math.floor(safeMs % 1000)).padStart(3, '0');
+  return `${base}.${milliseconds}`;
+}
 
 export function computeNextAlarm(hour, minute, now = new Date()) {
   const next = new Date(now);

@@ -3,14 +3,18 @@ import { formatTime, pad } from '../../lib/time.js';
 export function renderTimer(state, t) {
   const list = state.timers.map((timer, idx) => {
     const status = timer.running ? t('running') : timer.remaining === timer.duration ? t('idle') : timer.remaining === 0 ? t('done') : t('paused');
+    const statusIcon = timer.running ? '⏳' : timer.remaining === 0 ? '⏹️' : timer.remaining === timer.duration ? '⏱️' : '⏸️';
     const d = timer.duration;
     const h = Math.floor(d / 3600);
     const m = Math.floor((d % 3600) / 60);
-    const s = d % 60;    return `<li class="list-item">
+    const s = d % 60;
+    const cannotDelete = state.timers.length <= 1;
+    return `<li class="list-item">
       <div>
         <strong>${t('item')} ${idx + 1}</strong>
-        <div class="muted">${status}</div>
-        <div class="display small">${formatTime(timer.remaining * 1000)}</div>      </div>
+        <div class="muted">${statusIcon} ${status}</div>
+        <div class="display small">${formatTime(timer.remaining * 1000, true, state.showMilliseconds)}</div>
+      </div>
       <div class="row">
         <input data-timer-h="${timer.id}" type="number" min="0" max="99" value="${pad(h)}" />
         <input data-timer-m="${timer.id}" type="number" min="0" max="59" value="${pad(m)}" />
@@ -18,7 +22,8 @@ export function renderTimer(state, t) {
         <button class="btn" data-timer-save="${timer.id}">${t('save')}</button>
         <button class="btn primary" data-timer-toggle="${timer.id}">${timer.running ? t('pause') : timer.remaining !== timer.duration ? t('resume') : t('start')}</button>
         <button class="btn" data-timer-reset="${timer.id}">${t('reset')}</button>
-        <button class="btn" data-timer-delete="${timer.id}">${t('delete')}</button>      </div>
+        <button class="btn" data-timer-delete="${timer.id}" ${cannotDelete ? 'disabled' : ''} title="${cannotDelete ? t('cannotDeleteLastItem') : ''}">${t('delete')}</button>
+      </div>
     </li>`;
   }).join('');
 

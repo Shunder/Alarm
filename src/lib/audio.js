@@ -23,7 +23,9 @@ export function canPlayAudio() {
 
 export function playAlarm(volume = 0.7) {
   if (!canPlayAudio()) return false;
-  beep(0.35, volume, 880);
-  setTimeout(() => beep(0.35, volume, 784), 420);
-  setTimeout(() => beep(0.45, volume, 988), 860);  return true;
+  const softVolume = Math.min(volume, 0.45);
+  beep(0.28, softVolume, 523.25);
+  setTimeout(() => beep(0.28, softVolume * 0.9, 659.25), 340);
+  setTimeout(() => beep(0.34, softVolume * 0.85, 783.99), 700);
+  return true;
 }
