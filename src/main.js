@@ -16,6 +16,9 @@ let state = loadState();
 let activeTab = 'clock';
 let modal = null;
 let lastTick = Date.now();
+let lastClockRenderAt = 0;
+let lastTimerRenderAt = 0;
+let lastStopwatchRenderAt = 0;
 
 applyTheme(state.mode, state.theme);
 
@@ -48,30 +51,72 @@ function triggerRing(sourceKey, targetId = null) {
 function tick(now = Date.now()) {
   const dt = now - lastTick;
   lastTick = now;
+  let dirty = false;
 
   state.timers.forEach((timer) => {
     if (!timer.running || !timer.endAt) return;
-    timer.remaining = Math.max(0, Math.ceil((timer.endAt - now) / 1000));
+    const nextRemaining = Math.max(0, Math.ceil((timer.endAt - now) / 1000));
+    if (nextRemaining !== timer.remaining) {
+      timer.remaining = nextRemaining;
+      dirty = true;
+    }
     if (timer.remaining === 0) {
       timer.running = false;
       timer.endAt = null;
-      triggerRing('timer', timer.id);    }
+      dirty = true;
+      triggerRing('timer', timer.id);
+    }
   });
 
   state.stopwatches.forEach((sw) => {
-    if (sw.running) sw.elapsed += dt;  });
+    if (sw.running) {
+      sw.elapsed += dt;
+      dirty = true;
+    }
+  });
 
   state.alarms.forEach((alarm) => {
     if (!alarm.enabled || !alarm.nextAt) return;
     if (now >= alarm.nextAt) {
       alarm.enabled = false;
+      dirty = true;
       triggerRing('tabAlarm', alarm.id);
     }
   });
 
-  persist();
+  if (dirty) persist();
   if (document.hidden || isEditing()) return;
-  if (activeTab === 'clock' || activeTab === 'timer' || activeTab === 'stopwatch') render();
+
+  if (activeTab === 'clock') {
+    const needsSubSecond = state.showSeconds;
+    const minInterval = needsSubSecond ? 250 : 1000;
+    if (now - lastClockRenderAt >= minInterval) {
+      lastClockRenderAt = now;
+      render();
+    }
+    return;
+  }
+
+  if (activeTab === 'timer') {
+    const runningTimer = state.timers.some((timer) => timer.running);
+    if (!runningTimer) return;
+    const minInterval = state.showMilliseconds ? 100 : 250;
+    if (now - lastTimerRenderAt >= minInterval) {
+      lastTimerRenderAt = now;
+      render();
+    }
+    return;
+  }
+
+  if (activeTab === 'stopwatch') {
+    const runningStopwatch = state.stopwatches.some((sw) => sw.running);
+    if (!runningStopwatch) return;
+    const minInterval = state.showMilliseconds ? 100 : 250;
+    if (now - lastStopwatchRenderAt >= minInterval) {
+      lastStopwatchRenderAt = now;
+      render();
+    }
+  }
 }
 
 function viewByTab() {
