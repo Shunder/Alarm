@@ -48,7 +48,6 @@ function triggerRing(sourceKey, targetId = null) {
 function tick(now = Date.now()) {
   const dt = now - lastTick;
   lastTick = now;
-<<<<<<< HEAD
 
   state.timers.forEach((timer) => {
     if (!timer.running || !timer.endAt) return;
@@ -56,53 +55,22 @@ function tick(now = Date.now()) {
     if (timer.remaining === 0) {
       timer.running = false;
       timer.endAt = null;
-      triggerRing('timer', timer.id);
-=======
-  let needsRender = activeTab === 'clock';
-
-  state.timers.forEach((timer) => {
-    if (!timer.running || !timer.endAt) return;
-    timer.remainingMs = Math.max(0, timer.endAt - now);
-    if (timer.remainingMs === 0) {
-      timer.running = false;
-      timer.endAt = null;
-      triggerRing('timer', timer.id);
-      needsRender = true;
-    } else if (activeTab === 'timer') {
-      needsRender = true;
->>>>>>> 9c4646c (fix: eliminate UI flicker and add ms precision/theme i18n improvements)
-    }
+      triggerRing('timer', timer.id);    }
   });
 
   state.stopwatches.forEach((sw) => {
-<<<<<<< HEAD
-    if (sw.running) sw.elapsed += dt;
-=======
-    if (!sw.running) return;
-    sw.elapsed += dt;
-    if (activeTab === 'stopwatch') needsRender = true;
->>>>>>> 9c4646c (fix: eliminate UI flicker and add ms precision/theme i18n improvements)
-  });
+    if (sw.running) sw.elapsed += dt;  });
 
   state.alarms.forEach((alarm) => {
     if (!alarm.enabled || !alarm.nextAt) return;
     if (now >= alarm.nextAt) {
       alarm.enabled = false;
       triggerRing('tabAlarm', alarm.id);
-<<<<<<< HEAD
-=======
-      needsRender = true;
->>>>>>> 9c4646c (fix: eliminate UI flicker and add ms precision/theme i18n improvements)
     }
   });
 
   persist();
-<<<<<<< HEAD
-  if (!document.hidden) render();
-=======
-  if (!document.hidden && needsRender && !isEditing()) render();
->>>>>>> 9c4646c (fix: eliminate UI flicker and add ms precision/theme i18n improvements)
-}
+  if (!document.hidden) render();}
 
 function viewByTab() {
   if (activeTab === 'clock') return renderClock(state, t);
@@ -128,21 +96,6 @@ function render() {
   bindEvents();
 }
 
-<<<<<<< HEAD
-=======
-function ensureDeleteAllowed(type, id) {
-  const list = state[type];
-  if (list.length <= 1) {
-    toast(t('cannotDeleteLast'));
-    return false;
-  }
-  state[type] = list.filter((x) => x.id !== id);
-  persist();
-  render();
-  return true;
-}
-
->>>>>>> 9c4646c (fix: eliminate UI flicker and add ms precision/theme i18n improvements)
 function bindEvents() {
   app.querySelectorAll('[data-tab]').forEach((el) => el.addEventListener('click', () => {
     activeTab = el.dataset.tab;
@@ -186,7 +139,6 @@ function bindEvents() {
     a.snoozeMinutes = Number(el.value) || 5;
     persist();
   }));
-<<<<<<< HEAD
   app.querySelectorAll('[data-alarm-delete]').forEach((el) => el.addEventListener('click', () => {
     if (state.alarms.length <= 1) return;
     state.alarms = state.alarms.filter((x) => x.id !== el.dataset.alarmDelete);
@@ -194,14 +146,7 @@ function bindEvents() {
   }));
 
   app.querySelector('#timer-add')?.addEventListener('click', () => {
-    state.timers.push({ id: uid('t'), duration: 300, remaining: 300, running: false, endAt: null });
-=======
-  app.querySelectorAll('[data-alarm-delete]').forEach((el) => el.addEventListener('click', () => ensureDeleteAllowed('alarms', el.dataset.alarmDelete)));
-
-  app.querySelector('#timer-add')?.addEventListener('click', () => {
-    state.timers.push({ id: uid('t'), durationMs: 300000, remainingMs: 300000, running: false, endAt: null });
->>>>>>> 9c4646c (fix: eliminate UI flicker and add ms precision/theme i18n improvements)
-    persist(); render();
+    state.timers.push({ id: uid('t'), duration: 300, remaining: 300, running: false, endAt: null });    persist(); render();
   });
   app.querySelectorAll('[data-timer-save]').forEach((el) => el.addEventListener('click', () => {
     const id = el.dataset.timerSave;
@@ -210,14 +155,8 @@ function bindEvents() {
     const h = Number(app.querySelector(`[data-timer-h="${id}"]`)?.value) || 0;
     const m = Number(app.querySelector(`[data-timer-m="${id}"]`)?.value) || 0;
     const s = Number(app.querySelector(`[data-timer-s="${id}"]`)?.value) || 0;
-<<<<<<< HEAD
     timer.duration = h * 3600 + m * 60 + s;
-    timer.remaining = timer.duration;
-=======
-    timer.durationMs = (h * 3600 + m * 60 + s) * 1000;
-    timer.remainingMs = timer.durationMs;
->>>>>>> 9c4646c (fix: eliminate UI flicker and add ms precision/theme i18n improvements)
-    timer.running = false;
+    timer.remaining = timer.duration;    timer.running = false;
     timer.endAt = null;
     toast(t('timerSet'));
     persist(); render();
@@ -227,12 +166,7 @@ function bindEvents() {
     if (!timer) return;
     if (!timer.running) {
       timer.running = true;
-<<<<<<< HEAD
-      timer.endAt = Date.now() + timer.remaining * 1000;
-=======
-      timer.endAt = Date.now() + timer.remainingMs;
->>>>>>> 9c4646c (fix: eliminate UI flicker and add ms precision/theme i18n improvements)
-    } else {
+      timer.endAt = Date.now() + timer.remaining * 1000;    } else {
       timer.running = false;
       timer.endAt = null;
     }
@@ -243,7 +177,6 @@ function bindEvents() {
     if (!timer) return;
     timer.running = false;
     timer.endAt = null;
-<<<<<<< HEAD
     timer.remaining = timer.duration;
     persist(); render();
   }));
@@ -252,13 +185,6 @@ function bindEvents() {
     state.timers = state.timers.filter((x) => x.id !== el.dataset.timerDelete);
     persist(); render();
   }));
-=======
-    timer.remainingMs = timer.durationMs;
-    persist(); render();
-  }));
-  app.querySelectorAll('[data-timer-delete]').forEach((el) => el.addEventListener('click', () => ensureDeleteAllowed('timers', el.dataset.timerDelete)));
->>>>>>> 9c4646c (fix: eliminate UI flicker and add ms precision/theme i18n improvements)
-
   app.querySelector('#sw-add')?.addEventListener('click', () => {
     state.stopwatches.push({ id: uid('s'), elapsed: 0, running: false, laps: [] });
     persist(); render();
@@ -284,16 +210,11 @@ function bindEvents() {
     sw.laps = [];
     persist(); render();
   }));
-<<<<<<< HEAD
   app.querySelectorAll('[data-sw-delete]').forEach((el) => el.addEventListener('click', () => {
     if (state.stopwatches.length <= 1) return;
     state.stopwatches = state.stopwatches.filter((x) => x.id !== el.dataset.swDelete);
     persist(); render();
   }));
-=======
-  app.querySelectorAll('[data-sw-delete]').forEach((el) => el.addEventListener('click', () => ensureDeleteAllowed('stopwatches', el.dataset.swDelete)));
->>>>>>> 9c4646c (fix: eliminate UI flicker and add ms precision/theme i18n improvements)
-
   app.querySelector('#mode-toggle')?.addEventListener('click', () => {
     state.mode = state.mode === 'dark' ? 'light' : 'dark';
     applyTheme(state.mode, state.theme);
@@ -308,18 +229,6 @@ function bindEvents() {
     state.lang = e.target.value;
     persist(); render();
   });
-<<<<<<< HEAD
-=======
-  app.querySelector('#timer-ms')?.addEventListener('change', (e) => {
-    state.showTimerMilliseconds = e.target.checked;
-    persist(); render();
-  });
-  app.querySelector('#stopwatch-ms')?.addEventListener('change', (e) => {
-    state.showStopwatchMilliseconds = e.target.checked;
-    persist(); render();
-  });
-
->>>>>>> 9c4646c (fix: eliminate UI flicker and add ms precision/theme i18n improvements)
   app.querySelector('#volume')?.addEventListener('input', (e) => {
     state.sound.volume = Number(e.target.value); persist();
   });
@@ -353,11 +262,6 @@ function bindEvents() {
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden) tick(Date.now());
 });
-<<<<<<< HEAD
-setInterval(() => tick(Date.now()), 1000);
-=======
-setInterval(() => tick(Date.now()), 100);
->>>>>>> 9c4646c (fix: eliminate UI flicker and add ms precision/theme i18n improvements)
-render();
+setInterval(() => tick(Date.now()), 1000);render();
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => undefined);
