@@ -16,6 +16,7 @@ const defaults = {
   theme: 'blue',
   lang: 'en',
   showSeconds: true,
+  showMilliseconds: false,
   alarms: [createAlarm('a1')],
   timers: [createTimer('t1')],
   stopwatches: [createStopwatch('s1')],

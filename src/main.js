@@ -70,7 +70,9 @@ function tick(now = Date.now()) {
   });
 
   persist();
-  if (!document.hidden) render();}
+  if (document.hidden || isEditing()) return;
+  if (activeTab === 'clock' || activeTab === 'timer' || activeTab === 'stopwatch') render();
+}
 
 function viewByTab() {
   if (activeTab === 'clock') return renderClock(state, t);
@@ -81,14 +83,16 @@ function viewByTab() {
 }
 
 function nav() {
+  const runningTimer = state.timers.some((timer) => timer.running);
+  const runningStopwatch = state.stopwatches.some((sw) => sw.running);
   const tabs = [
-    { key: 'clock', label: t('tabClock') },
-    { key: 'alarm', label: t('tabAlarm') },
-    { key: 'timer', label: t('tabTimer') },
-    { key: 'stopwatch', label: t('tabStopwatch') },
-    { key: 'settings', label: t('tabSettings') },
+    { key: 'clock', label: t('tabClock'), icon: '🕒' },
+    { key: 'alarm', label: t('tabAlarm'), icon: '⏰' },
+    { key: 'timer', label: t('tabTimer'), icon: runningTimer ? '⏳' : '⏱️' },
+    { key: 'stopwatch', label: t('tabStopwatch'), icon: runningStopwatch ? '▶️' : '⏸️' },
+    { key: 'settings', label: t('tabSettings'), icon: '⚙️' },
   ];
-  return `<nav class="nav">${tabs.map((tab) => `<button class="tab" data-tab="${tab.key}" aria-selected="${activeTab === tab.key}">${tab.label}</button>`).join('')}</nav>`;
+  return `<nav class="nav">${tabs.map((tab) => `<button class="tab" data-tab="${tab.key}" aria-selected="${activeTab === tab.key}">${tab.icon} ${tab.label}</button>`).join('')}</nav>`;
 }
 
 function render() {
@@ -140,7 +144,10 @@ function bindEvents() {
     persist();
   }));
   app.querySelectorAll('[data-alarm-delete]').forEach((el) => el.addEventListener('click', () => {
-    if (state.alarms.length <= 1) return;
+    if (state.alarms.length <= 1) {
+      toast(t('cannotDeleteLastItem'));
+      return;
+    }
     state.alarms = state.alarms.filter((x) => x.id !== el.dataset.alarmDelete);
     persist(); render();
   }));
@@ -181,7 +188,10 @@ function bindEvents() {
     persist(); render();
   }));
   app.querySelectorAll('[data-timer-delete]').forEach((el) => el.addEventListener('click', () => {
-    if (state.timers.length <= 1) return;
+    if (state.timers.length <= 1) {
+      toast(t('cannotDeleteLastItem'));
+      return;
+    }
     state.timers = state.timers.filter((x) => x.id !== el.dataset.timerDelete);
     persist(); render();
   }));
@@ -211,10 +221,18 @@ function bindEvents() {
     persist(); render();
   }));
   app.querySelectorAll('[data-sw-delete]').forEach((el) => el.addEventListener('click', () => {
-    if (state.stopwatches.length <= 1) return;
+    if (state.stopwatches.length <= 1) {
+      toast(t('cannotDeleteLastItem'));
+      return;
+    }
     state.stopwatches = state.stopwatches.filter((x) => x.id !== el.dataset.swDelete);
     persist(); render();
   }));
+  app.querySelector('#show-milliseconds')?.addEventListener('change', (e) => {
+    state.showMilliseconds = e.target.checked;
+    persist();
+    render();
+  });
   app.querySelector('#mode-toggle')?.addEventListener('click', () => {
     state.mode = state.mode === 'dark' ? 'light' : 'dark';
     applyTheme(state.mode, state.theme);
@@ -262,6 +280,6 @@ function bindEvents() {
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden) tick(Date.now());
 });
-setInterval(() => tick(Date.now()), 1000);render();
+setInterval(() => tick(Date.now()), 100);render();
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => undefined);

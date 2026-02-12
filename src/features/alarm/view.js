@@ -4,6 +4,7 @@ export function renderAlarm(state, t) {
   const list = state.alarms.map((alarm, idx) => {
     const nextAt = alarm.nextAt ?? computeNextAlarm(alarm.hour, alarm.minute);
     const relative = t(relativeAlarmLabelKey(nextAt));
+    const cannotDelete = state.alarms.length <= 1;
     return `<li class="list-item">
       <div>
         <strong>${t('item')} ${idx + 1}</strong>
@@ -14,7 +15,8 @@ export function renderAlarm(state, t) {
         <input data-alarm-minute="${alarm.id}" type="number" min="0" max="59" value="${alarm.minute}" />
         <label class="row"><input data-alarm-enabled="${alarm.id}" type="checkbox" ${alarm.enabled ? 'checked' : ''}/> ${t('enabled')}</label>
         <input data-alarm-snooze="${alarm.id}" type="number" min="1" max="30" value="${alarm.snoozeMinutes}" />
-        <button class="btn" data-alarm-delete="${alarm.id}">${t('delete')}</button>      </div>
+        <button class="btn" data-alarm-delete="${alarm.id}" ${cannotDelete ? 'disabled' : ''} title="${cannotDelete ? t('cannotDeleteLastItem') : ''}">${t('delete')}</button>
+      </div>
     </li>`;
   }).join('');
 

@@ -4,6 +4,14 @@ import { languages } from '../../lib/i18n.js';
 
 export function renderSettings(state, t) {
   const permission = getNotificationPermission();
+  const themeKeyMap = {
+    blue: 'themeBlue',
+    purple: 'themePurple',
+    green: 'themeGreen',
+    orange: 'themeOrange',
+    red: 'themeRed',
+    cyan: 'themeCyan',
+  };
   return `<section class="card">
     <h2>${t('settings')}</h2>
     <div class="split">
@@ -11,12 +19,13 @@ export function renderSettings(state, t) {
         <h3>${t('theme')}</h3>
         <div class="row">
           <button class="btn" id="mode-toggle">${state.mode === 'dark' ? t('switchToLight') : t('switchToDark')}</button>
-          ${themes.map((th) => `<button class="btn ${state.theme === th ? 'primary' : ''}" data-theme="${th}">${th}</button>`).join('')}        </div>
+          ${themes.map((th) => `<button class="btn ${state.theme === th ? 'primary' : ''}" data-theme="${th}">${t(themeKeyMap[th] ?? th)}</button>`).join('')}        </div>
         <label class="row" style="margin-top:12px;">${t('language')}
           <select id="language-select">
             ${languages.map((lang) => `<option value="${lang.value}" ${state.lang === lang.value ? 'selected' : ''}>${lang.label}</option>`).join('')}
           </select>
         </label>
+        <label class="row" style="margin-top:12px;"><input id="show-milliseconds" type="checkbox" ${state.showMilliseconds ? 'checked' : ''}/> ${t('showMilliseconds')}</label>
       </div>
       <div>
         <h3>${t('soundAndNotification')}</h3>

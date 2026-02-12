@@ -6,7 +6,9 @@ const messages = {
     save: 'Save', timerSet: 'Timer set.', alarmSaved: 'Alarm time saved.',
     timer: 'Timer', start: 'Start', pause: 'Pause', resume: 'Resume', reset: 'Reset',
     stopwatch: 'Stopwatch', lap: 'Lap', settings: 'Settings', theme: 'Theme',
+    themeBlue: 'Blue', themePurple: 'Purple', themeGreen: 'Green', themeOrange: 'Orange', themeRed: 'Red', themeCyan: 'Cyan',
     switchToLight: 'Switch to Light', switchToDark: 'Switch to Dark',
+    showMilliseconds: 'Show milliseconds for timer & stopwatch',
     soundAndNotification: 'Sound & Notifications', volume: 'Volume', testSound: 'Test Sound',
     requestNotification: 'Request Notification', notification: 'Notification', language: 'Language',
     ringTimeUp: 'Time is up.', stop: 'Stop', snooze: 'Snooze', alarmNotice: 'Alarm notice',
@@ -14,6 +16,8 @@ const messages = {
     alarmList: 'Alarm list', timerList: 'Timer list', stopwatchList: 'Stopwatch list',
     addAlarm: 'Add alarm', addTimer: 'Add timer', addStopwatch: 'Add stopwatch', delete: 'Delete',
     running: 'Running', paused: 'Paused', idle: 'Idle', done: 'Done',
+    stopState: 'Stopped',
+    cannotDeleteLastItem: 'At least one item must be kept.',
     item: 'Item',  },
   zh: {
     tabClock: '时钟', tabAlarm: '闹钟', tabTimer: '倒计时', tabStopwatch: '计时器', tabSettings: '设置',
@@ -22,7 +26,9 @@ const messages = {
     save: '保存', timerSet: '倒计时已设置。', alarmSaved: '闹钟时间已保存。',
     timer: '倒计时', start: '开始', pause: '暂停', resume: '继续', reset: '重置',
     stopwatch: '计时器', lap: '分段', settings: '设置', theme: '主题',
+    themeBlue: '蓝色', themePurple: '紫色', themeGreen: '绿色', themeOrange: '橙色', themeRed: '红色', themeCyan: '青色',
     switchToLight: '切换浅色', switchToDark: '切换深色',
+    showMilliseconds: '计时器/倒计时显示毫秒',
     soundAndNotification: '声音与通知', volume: '音量', testSound: '测试声音',
     requestNotification: '请求通知权限', notification: '通知', language: '语言',
     ringTimeUp: '时间到。', stop: '停止', snooze: '稍后提醒', alarmNotice: '闹钟提醒',
@@ -30,6 +36,8 @@ const messages = {
     alarmList: '闹钟列表', timerList: '倒计时列表', stopwatchList: '计时器列表',
     addAlarm: '新增闹钟', addTimer: '新增倒计时', addStopwatch: '新增计时器', delete: '删除',
     running: '运行中', paused: '已暂停', idle: '未开始', done: '已完成',
+    stopState: '已停止',
+    cannotDeleteLastItem: '至少保留 1 个项目。',
     item: '项目',  },
 };
 
