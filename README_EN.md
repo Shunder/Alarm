@@ -2,6 +2,8 @@
 
 A lightweight, production-ready web app for **Clock / Alarm / Timer / Stopwatch**, with PWA support and multi-language UI (English/中文).
 
+This project is open source under the MIT License. See the LICENSE file for details.
+
 ## Features
 - Clock, Alarm, Timer, Stopwatch, Settings tabs.
 - Multiple alarms with enable/disable, snooze, and status list view.
