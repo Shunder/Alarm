@@ -14,6 +14,15 @@ This project is open source under the MIT License. See the LICENSE file for deta
 - Local persistence via `localStorage`.
 - PWA manifest + service worker.
 
+
+## Architecture Refactor Notes (2026-04)
+- Added a centralized `AlarmApp` controller (`src/main.js`) to unify state, rendering, event handling, and tick scheduling.
+- Replaced per-render node listeners with **root-level event delegation** (click/change/input) to reduce rebinding overhead and improve runtime reliability.
+- Introduced tab-aware render throttling for clock/timer/stopwatch to avoid unnecessary paints and improve responsiveness.
+- Upgraded the UI with glassmorphism cards and sticky navigation while keeping GitHub Pages static-path compatibility (no hardcoded absolute paths).
+
+> This change is an architecture-level refactor, so both Chinese and English READMEs were updated together.
+
 ## Run
 ```bash
 npm install

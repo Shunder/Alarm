@@ -23,7 +23,7 @@ export function renderStopwatch(state, t) {
 
   return `<section class="card">
     <h2>${t('tabStopwatch')}</h2>
-    <div class="row"><button class="btn primary" id="sw-add">${t('addStopwatch')}</button></div>
+    <div class="row"><button class="btn primary" id="sw-add" data-action="sw-add">${t('addStopwatch')}</button></div>
     <h3>${t('stopwatchList')}</h3>
     <ul class="entity-list">${list}</ul>
   </section>`;

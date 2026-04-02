@@ -18,7 +18,7 @@ export function renderSettings(state, t) {
       <div>
         <h3>${t('theme')}</h3>
         <div class="row">
-          <button class="btn" id="mode-toggle">${state.mode === 'dark' ? t('switchToLight') : t('switchToDark')}</button>
+          <button class="btn" id="mode-toggle" data-action="mode-toggle">${state.mode === 'dark' ? t('switchToLight') : t('switchToDark')}</button>
           ${themes.map((th) => `<button class="btn ${state.theme === th ? 'primary' : ''}" data-theme="${th}">${t(themeKeyMap[th] ?? th)}</button>`).join('')}        </div>
         <label class="row" style="margin-top:12px;">${t('language')}
           <select id="language-select">
@@ -31,8 +31,8 @@ export function renderSettings(state, t) {
         <h3>${t('soundAndNotification')}</h3>
         <label>${t('volume')} <input id="volume" type="range" min="0" max="1" step="0.05" value="${state.sound.volume}" /></label>
         <div class="row" style="margin-top:10px;">
-          <button class="btn" id="audio-test">${t('testSound')}</button>
-          <button class="btn" id="notification-permission">${t('requestNotification')}</button>
+          <button class="btn" id="audio-test" data-action="audio-test">${t('testSound')}</button>
+          <button class="btn" id="notification-permission" data-action="notification-permission">${t('requestNotification')}</button>
         </div>
         <p class="muted">${t('notification')}: ${permission}</p>
       </div>
