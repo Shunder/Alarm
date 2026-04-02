@@ -24,7 +24,7 @@ export function renderAlarm(state, t) {
     <h2>${t('tabAlarm')}</h2>
     <p class="muted">${t('keepOpenHint')}</p>
     <div class="row">
-      <button class="btn primary" id="alarm-add">${t('addAlarm')}</button>
+      <button class="btn primary" id="alarm-add" data-action="alarm-add">${t('addAlarm')}</button>
     </div>
     <h3>${t('alarmList')}</h3>
     <ul class="entity-list">${list}</ul>

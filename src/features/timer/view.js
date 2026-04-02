@@ -32,7 +32,7 @@ export function renderTimer(state, t, now = Date.now()) {
 
   return `<section class="card">
     <h2>${t('tabTimer')}</h2>
-    <div class="row"><button class="btn primary" id="timer-add">${t('addTimer')}</button></div>
+    <div class="row"><button class="btn primary" id="timer-add" data-action="timer-add">${t('addTimer')}</button></div>
     <h3>${t('timerList')}</h3>
     <ul class="entity-list">${list}</ul>
   </section>`;
